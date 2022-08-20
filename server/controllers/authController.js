@@ -1,6 +1,7 @@
 import User from '../models/User.js'
 import bcrypt from 'bcryptjs'
 import { createError } from '../utils/error.js'
+import jwt from 'jsonwebtoken'
 
 
 // TODO: USE JWT WITH COOKIE IN THE PROJECT
@@ -33,7 +34,7 @@ export const registerController = async(req, res, next) => {
 
 export const loginController = async(req, res, next) => {
     try {
-        // check for use in db and if no user throw an error
+        // check for user in db and if no user throw an error
         const user = await User.findOne({ username: req.body.username });
         if (!user) return next(createError(404, 'User not found'));
 
@@ -44,8 +45,11 @@ export const loginController = async(req, res, next) => {
         );
         if (!isPasswordCorrect) return next(createError(404, 'Password incorrect'));
 
+        // Creating a login token
+        const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT)
+
         const { password, isAdmin, ...otherDetails } = user._doc;
-        res.status(201).json({...otherDetails })
+        res.cookie("access_token", token, { httpOnly: true }).status(201).json({...otherDetails })
     } catch (err) {
         next(err);
     }
