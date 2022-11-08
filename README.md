@@ -5,6 +5,7 @@
     ```sh
       yarn install
     ```
+    - Have a mongodb cloud account
 
 ## Getting Started
  ```sh
@@ -15,3 +16,6 @@
  ```sh
     yarn start
  ```
+ - Create a new file .env
+
+ - Copy the contents on .env.example to .env file.
