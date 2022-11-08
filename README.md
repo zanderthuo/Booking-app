@@ -8,7 +8,7 @@
 
 ## Getting Started
  ```sh
-    git clone 
+    git clone https://github.com/zanderthuo/Booking-app.git
 ```
 
  - To start the server run the following command.
